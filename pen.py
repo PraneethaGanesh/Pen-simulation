@@ -11,11 +11,12 @@ class Pen:
             self.ink_color = self.get_valid_ink_color()
             self.nib_type = self.get_valid_nib_type()
             self.cartridge_type = self.get_valid_cartridge_type()
+            self.font_style = self.get_valid_font_style()
             user_text = input("Write your thoughts: ").strip()
             if self.decrease_ink(user_text):
                 self.texts_written.append(user_text)
                 self.score += len(user_text.split())
-                self.append_to_file(user_text)
+                self.append_to_file(styled_text)
             else:
                 break
 
@@ -42,7 +43,21 @@ class Pen:
                 return cartridge_type
             else:
                 print("Invalid cartridge type! Please choose 'standard' or 'large'.")
+     def get_valid_font_style(self):
+        while True:
+            font_style = input("Font style (normal/bold/italic): ").strip().lower()
+            if font_style in ['normal', 'bold', 'italic']:
+                return font_style
+            else:
+                print("Invalid font style! Please choose from 'normal', 'bold', or 'italic'.")
 
+    def apply_font_style(self, text):
+        if self.font_style == 'bold':
+            return f"**{text}**"
+        elif self.font_style == 'italic':
+            return f"*{text}*"
+        return text
+        
     def decrease_ink(self, text):
         words_written = len(text.split())
         ink_needed = words_written * self.get_ink_needed_multiplier()
@@ -75,3 +90,9 @@ class Pen:
         nib_multipliers = {'fine': 1, 'medium': 2, 'bold': 3}
         cartridge_multipliers = {'standard': 2, 'large': 3}
         return nib_multipliers.get(self.nib_type) * cartridge_multipliers.get(self.cartridge_type)
+
+    def display_stats(self):
+        print(f"Pen Type: {self.pen_type}")
+        print(f"Ink Level: {self.ink_level}")
+        print(f"Score: {self.score}")
+        print(f"Texts Written: {self.texts_written}")
