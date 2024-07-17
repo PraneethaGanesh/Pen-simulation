@@ -11,6 +11,6 @@ def pen_func():
     print(f"Well done you got: {my_pen.score} points")
     if input("Read the file 'written_story.txt'? (yes/no): ").strip().lower() == "yes":
         my_pen.read_file()
-
+    my_pen.display_stats()
 if __name__ == "__main__":
     pen_func()
